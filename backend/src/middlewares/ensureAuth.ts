@@ -33,5 +33,6 @@ export default function ensureAuth(
   } catch {
     throw new AppError('Invalid JWT token', 401);
   }
+
   return next();
 }
