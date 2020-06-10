@@ -23,7 +23,7 @@ const toastTypesVariations = {
   `,
 };
 
-export const Container = styled(animated.div)<ContainerProps>`
+export const Container = animated(styled.div<ContainerProps>`
   position: relative;
   display: inline-flex;
   padding: 16px 45px 16px 16px;
@@ -31,6 +31,7 @@ export const Container = styled(animated.div)<ContainerProps>`
   align-items: flex-start;
   box-shadow: 2px 2px 5px #00000050;
   text-align: initial;
+  margin-right: 18px;
 
   ${(props) => toastTypesVariations[props.type || 'info']};
 
@@ -39,7 +40,7 @@ export const Container = styled(animated.div)<ContainerProps>`
   }
 
   & + div {
-    margin-top: 10px;
+    margin-top: 12px;
   }
 
   div {
@@ -76,4 +77,4 @@ export const Container = styled(animated.div)<ContainerProps>`
         margin: 0 12px 0 0;
       }
     `};
-`;
+`);
