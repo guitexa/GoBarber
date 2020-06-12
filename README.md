@@ -1,12 +1,14 @@
 <h1 align="center">
-  <img alt="Go Barber" src="https://i.imgur.com/ocOvCAf.png" width="100%" style="border-radius:5px;"/>
+  <img alt="Go Barber" src="https://i.imgur.com/ocOvCAf.png" width="100%" style="border-radius:8px;"/>
 </h1>
 
 <h3 align="center" >
   💈 App to manage appointments at barbershop 💈
 </h3>
 
-> 🚧 This app is under construction
+<p align="center">
+<img alt="Project working" src="https://media.giphy.com/media/Su7G60Sb7UOpvPs5Gz/giphy.gif" style="border-radius:8px;"/>
+</p>
 
 <p align="center">
   <img alt="Languagues" src="https://img.shields.io/github/languages/count/guitexa/GoBarber">
