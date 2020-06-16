@@ -22,10 +22,10 @@ export default class UpdateProviderFieldToProviderId1588618374552
     await queryRunner.createForeignKey(
       'appointments',
       new TableForeignKey({
-        name: 'TransactionCategory',
-        columnNames: ['id'],
-        referencedColumnNames: ['category_id'],
-        referencedTableName: 'transactions',
+        name: 'AppointmentProvider',
+        columnNames: ['provider_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       }),
