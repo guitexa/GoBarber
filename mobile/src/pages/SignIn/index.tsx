@@ -29,7 +29,6 @@ const SignIn: React.FC = () => {
     Keyboard.addListener('keyboardDidShow', keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
 
-    // cleanup function
     return () => {
       Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
       Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
@@ -53,10 +52,10 @@ const SignIn: React.FC = () => {
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
         >
           <Container>
-            <Image source={logoImg} />
+            {!open && <Image source={logoImg} />}
             <View>
               <Title>Login</Title>
             </View>
