@@ -123,7 +123,6 @@ const SignUp: React.FC = () => {
                 icon="user"
                 placeholder="Nome"
                 onSubmitEditing={Keyboard.dismiss}
-                returnKeyType="next"
               />
               <Input
                 name="email"
@@ -133,7 +132,6 @@ const SignUp: React.FC = () => {
                 autoCorrect={false}
                 keyboardType="email-address"
                 onSubmitEditing={Keyboard.dismiss}
-                returnKeyType="next"
               />
               <Input
                 name="password"
