@@ -4,7 +4,7 @@ import ensureAuth from '@modules/users/infra/http/middlewares/ensureAuth';
 import AppointmentsController from '../controllers/AppointmentsController';
 
 const appointmentsRouter = Router();
-const appointmentsController = new AppointmentsController();
+const appointments = new AppointmentsController();
 
 appointmentsRouter.use(ensureAuth);
 
@@ -14,6 +14,6 @@ appointmentsRouter.use(ensureAuth);
 //   return res.json(appointments);
 // });
 
-appointmentsRouter.post('/', appointmentsController.create);
+appointmentsRouter.post('/', appointments.create);
 
 export default appointmentsRouter;
