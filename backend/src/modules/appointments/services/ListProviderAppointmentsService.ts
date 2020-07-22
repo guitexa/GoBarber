@@ -1,24 +1,21 @@
 import { inject, injectable } from 'tsyringe';
-import { getDaysInMonth, getDate, isAfter } from 'date-fns';
+import { getHours, isAfter } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
+import Appointments from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 interface IRequest {
   provider_id: string;
+  day: number;
   month: number;
   year: number;
 }
 
-interface IResponse {
-  day: number;
-  available: boolean;
-}
-
 @injectable()
-export default class ListProviderMonthAvailabilityService {
+export default class ListProviderAppointmentsService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
@@ -29,9 +26,10 @@ export default class ListProviderMonthAvailabilityService {
 
   public async execute({
     provider_id,
+    day,
     month,
     year,
-  }: IRequest): Promise<IResponse[]> {
+  }: IRequest): Promise<Appointments[]> {
     const checkProviderExists = await this.usersRepository.findByID(
       provider_id,
     );
@@ -40,32 +38,15 @@ export default class ListProviderMonthAvailabilityService {
       throw new AppError('This provider_id not exists');
     }
 
-    const appointments = await this.appointmentsRepository.findAllInMonthFromProvider(
+    const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
       {
         provider_id,
+        day,
         month,
         year,
       },
     );
 
-    const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));
-
-    const eachDayArray = Array.from(
-      { length: numberOfDaysInMonth },
-      (_, index) => index + 1,
-    );
-
-    const availability = eachDayArray.map(day => {
-      const appointmentsInDay = appointments.filter(appointment => {
-        return getDate(appointment.date) === day;
-      });
-
-      return {
-        day,
-        available: appointmentsInDay.length < 10,
-      };
-    });
-
-    return availability;
+    return appointments;
   }
 }
