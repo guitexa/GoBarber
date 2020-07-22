@@ -1,7 +1,10 @@
 import { inject, injectable } from 'tsyringe';
 import { getDaysInMonth, getDate, isAfter } from 'date-fns';
 
+import AppError from '@shared/errors/AppError';
+
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 interface IRequest {
   provider_id: string;
@@ -19,6 +22,9 @@ export default class ListProviderMonthAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
@@ -26,6 +32,14 @@ export default class ListProviderMonthAvailabilityService {
     month,
     year,
   }: IRequest): Promise<IResponse[]> {
+    const checkProviderExists = await this.usersRepository.findByID(
+      provider_id,
+    );
+
+    if (!checkProviderExists) {
+      throw new AppError('This provider_id not exists');
+    }
+
     const appointments = await this.appointmentsRepository.findAllInMonthFromProvider(
       {
         provider_id,

@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 import Appointment from '../infra/typeorm/entities/Appointment';
 
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 interface IRequest {
   provider_id: string;
@@ -18,6 +19,9 @@ export default class CreateAppointmentService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
@@ -29,6 +33,14 @@ export default class CreateAppointmentService {
 
     if (isBefore(appointmentDate, Date.now())) {
       throw new AppError('You cannot schedule an appointment on the past');
+    }
+
+    const checkProviderExists = await this.usersRepository.findByID(
+      provider_id,
+    );
+
+    if (!checkProviderExists) {
+      throw new AppError('This provider_id not exists');
     }
 
     if (provider_id === user_id) {
