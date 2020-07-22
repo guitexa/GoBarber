@@ -6,7 +6,7 @@ import Notification from '../../infra/typeorm/schemas/Notification';
 
 export default class NotificationsRepository
   implements INotificationsRepository {
-  private notificationsRepository: Notification[];
+  private notificationsRepository: Notification[] = [];
 
   public async create({
     content,
