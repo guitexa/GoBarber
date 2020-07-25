@@ -95,7 +95,7 @@ describe('CreateAppointment', () => {
 
   it('should NOT be able to create appointments on the same time', async () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      return new Date(2020, 6, 20, 13).getTime();
+      return new Date(2020, 6, 19).getTime();
     });
 
     const provider = await fakeUsersRepository.create({
@@ -127,7 +127,7 @@ describe('CreateAppointment', () => {
 
   it('should NOT be able to create an appointments on past date', async () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      return new Date(2020, 6, 20, 13).getTime();
+      return new Date(2020, 6, 17).getTime();
     });
 
     const provider = await fakeUsersRepository.create({
@@ -146,7 +146,7 @@ describe('CreateAppointment', () => {
       createAppointment.execute({
         provider_id: provider.id,
         user_id: user.id,
-        date: new Date(2020, 6, 20, 10),
+        date: new Date(2020, 6, 16, 10),
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

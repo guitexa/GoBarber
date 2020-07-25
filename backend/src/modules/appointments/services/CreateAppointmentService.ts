@@ -44,8 +44,12 @@ export default class CreateAppointmentService {
       'yyyy-M-d',
     )}`;
 
-    if (isBefore(appointmentDate, Date.now())) {
-      throw new AppError('You cannot schedule an appointment on the past');
+    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+      appointmentDate,
+    );
+
+    if (findAppointmentInSameDate) {
+      throw new AppError('This appointment is already booked');
     }
 
     const provider = await this.usersRepository.findByID(provider_id);
@@ -60,6 +64,10 @@ export default class CreateAppointmentService {
       throw new AppError('This user_id not exists');
     }
 
+    if (isBefore(appointmentDate, Date.now())) {
+      throw new AppError('You cannot schedule an appointment on the past');
+    }
+
     if (provider_id === user_id) {
       throw new AppError('You cannot schedule an appointment with yourself');
     }
@@ -68,14 +76,6 @@ export default class CreateAppointmentService {
       throw new AppError(
         'You cannot schedule an appointment outside business hour',
       );
-    }
-
-    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
-      appointmentDate,
-    );
-
-    if (findAppointmentInSameDate) {
-      throw new AppError('This appointment is already booked');
     }
 
     const appointment = this.appointmentsRepository.create({
