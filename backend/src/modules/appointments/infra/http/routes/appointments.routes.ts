@@ -26,10 +26,10 @@ appointmentsRouter.post(
 appointmentsRouter.get(
   '/me',
   celebrate({
-    [Segments.BODY]: {
-      day: Joi.number().required(),
-      month: Joi.number().required(),
-      year: Joi.number().required(),
+    [Segments.QUERY]: {
+      day: Joi.string().required(),
+      month: Joi.string().required(),
+      year: Joi.string().required(),
     },
   }),
   providerAppointments.show,
