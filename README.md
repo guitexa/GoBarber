@@ -49,7 +49,6 @@ This project was proposed by Rocketseat on Bootcamp GoStack. The goal is develop
 ## ⚙️ Install and Usage
 
 > :warning: Before run this project, create a PostgreSQL database with name "gostack_gobarber", a MongoDB database with same name, and a Redis:Alpine database.
-> <br />
 > Access [ormconfig.json](https://github.com/guitexa/GoBarber/blob/master/backend/ormconfig.json) for more information.
 
 ```sh
