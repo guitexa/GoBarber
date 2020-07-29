@@ -12,8 +12,8 @@
 </p>
 
 <p align="center">
-  <img alt="Languagues" src="https://img.shields.io/github/languages/count/guitexa/GoBarber">
-  <img alt="Top Languague" src="https://img.shields.io/github/languages/top/guitexa/GoBarber">
+  <img alt="Languages" src="https://img.shields.io/github/languages/count/guitexa/GoBarber">
+  <img alt="Top Language" src="https://img.shields.io/github/languages/top/guitexa/GoBarber">
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/guitexa/GoBarber">
   <a href="https://github.com/guitexa/GoBarber/commits/master">
     <img alt="Last commit date" src="https://img.shields.io/github/last-commit/guitexa/GoBarber">
@@ -33,7 +33,7 @@
     <img alt="Github - Guilherme Teixeira" src="https://img.shields.io/badge/Github--%23F8952D?style=social&logo=github">
   </a>
   <a href="https://www.linkedin.com/in/guitexa/" target="_blank" >
-    <img alt="Linkedin - Guilherme Teixeira" src="https://img.shields.io/badge/Linkedin--%23F8952D?style=social&logo=linkedin">
+    <img alt="LinkedIn - Guilherme Teixeira" src="https://img.shields.io/badge/Linkedin--%23F8952D?style=social&logo=linkedin">
   </a>
   <a href="mailto:guilhermetexa@outlook.com" target="_blank" >
     <img alt="Email - Guilherme Teixeira" src="https://img.shields.io/badge/Email--%23F8952D?style=social&logo=gmail">
@@ -43,11 +43,11 @@
 
 ## 📜 About the project
 
-This project was proposed by Rocketseat on Bootcamp GoStack. The goal is develop a complete app to barbershops called GoBarber, where providers set the schedules that they will be availables to work, while costumers can choose a provider who wish and to schedule an appointment.
+This project was proposed by Rocketseat on Bootcamp GoStack. The goal is develop a complete app to barbershops called GoBarber, where providers set the schedules that they will be available to work, while costumers can choose a provider who wish and to schedule an appointment.
 
 ## ⚙️ Install and Usage
 
-> :warning: Before run this project, create a Postgres database with name "gostack_gobarber".
+> :warning: Before run this project, create a PostgreSQL database with name "gostack_gobarber", a MongoDB database with same name, and a Redis:Alpine database
 > Access [ormconfig.json](https://github.com/guitexa/GoBarber/blob/master/backend/ormconfig.json) for more information.
 
 ```sh
@@ -64,12 +64,14 @@ yarn start
 yarn android | yarn ios
 ```
 
+> To run with Insomnia you can [download my Workspace here](https://github.com/guitexa/GoBarber/blob/master/backend/insomnia.config.json).
+
 ## Author
 
 🙋🏻‍♂️ **Guilherme Teixeira**
 
 [![github](http://ap.imagensbrasil.org/images/2018/12/10/github-logo-1.png) ](https://github.com/guitexa)
-[![linkedin](http://ap.imagensbrasil.org/images/2018/12/10/linkedin-1.png)](https://www.linkedin.com/in/guitexa/)
+[![linkedIn](http://ap.imagensbrasil.org/images/2018/12/10/linkedin-1.png)](https://www.linkedin.com/in/guitexa/)
 
 ## 🤝 Contributing
 
