@@ -20,7 +20,7 @@ describe('ListProviderMonthAvailability', () => {
 
   it('should be able to show month availability from provider', async () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      return new Date(2020, 4, 18).getTime();
+      return new Date(2020, 4, 17).getTime();
     });
 
     const provider = await fakeUsersRepository.create({
