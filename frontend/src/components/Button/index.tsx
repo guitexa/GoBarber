@@ -7,7 +7,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const Button: React.FC<ButtonProps> = ({ children, loading, ...rest }) => (
-  <Container loading={Number(loading)} type="submit" {...rest}>
+  <Container
+    loading={Number(loading)}
+    type="submit"
+    disabled={loading}
+    {...rest}
+  >
     {loading ? 'Enviando e-mail...' : children}
   </Container>
 );
