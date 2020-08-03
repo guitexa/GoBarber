@@ -12,9 +12,9 @@ const redisClient = redis.createClient({
 const limiter = new RateLimiterRedis({
   storeClient: redisClient,
   keyPrefix: 'ratelimit',
-  points: 5,
-  duration: 1,
-  inmemoryBlockOnConsumed: 6, // After 5 points consumed
+  points: 50,
+  duration: 10,
+  inmemoryBlockOnConsumed: 51, // After 50 points consumed
   inmemoryBlockDuration: 60, // IP will be blocked for 60 seconds
 });
 
