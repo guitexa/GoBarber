@@ -40,38 +40,74 @@ interface AppointmentData {
 }
 
 const Dashboard: React.FC = () => {
+  //Estado para armazenar o dia selecionado
   const [selectedDate, setSelectedDate] = useState(new Date());
+  //Estado para armazenar o mês atual
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  //Estado para armazenar os dias disponíveis recebidos da API
   const [monthAvailability, setMonthAvailability] = useState<
     MonthAvailability[]
   >([]);
+  //Estado para armazenar os agendamentos recebidos da API
   const [appointments, setAppointments] = useState<AppointmentData[]>([]);
 
   const { signOut, user } = useAuth();
 
+  //Função que recebe dia clicado e faz uma verificação se está disponível e se não está desabilitado, e define o estado
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
       setSelectedDate(day);
     }
   }, []);
 
+  //Função que recebe o mês clicado e define o estado
   const handleMonthChange = useCallback((month: Date) => {
     setCurrentMonth(month);
+
+    //Chamada à API pra trazer os dias do mês disponíveis
+    useEffect(() => {
+      api
+        .get(`/providers/${user.id}/month-availability`, {
+          params: {
+            year: currentMonth.getFullYear(),
+            month: currentMonth.getMonth() + 1,
+          },
+        })
+        .then((response) => {
+          setMonthAvailability(response.data);
+        });
+    }, [currentMonth, user.id]);
+
+    //Chamada à API pra trazer os agendamentos
+    useEffect(() => {
+      api
+        .get<AppointmentData[]>('/appointments/me', {
+          params: {
+            year: selectedDate.getFullYear(),
+            month: selectedDate.getMonth() + 1,
+            day: selectedDate.getDate(),
+          },
+        })
+        .then((response) => {
+          const responseFormatted = response.data
+            .map((appointment) => {
+              return {
+                ...appointment,
+                hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
+              };
+            })
+            .sort((a, b) => {
+              if (a.date < b.date) return -1;
+              if (a.date > b.date) return 1;
+              return 0;
+            });
+
+          setAppointments(responseFormatted);
+        });
+    }, [selectedDate]);
   }, []);
 
-  useEffect(() => {
-    api
-      .get(`/providers/${user.id}/month-availability`, {
-        params: {
-          year: currentMonth.getFullYear(),
-          month: currentMonth.getMonth() + 1,
-        },
-      })
-      .then((response) => {
-        setMonthAvailability(response.data);
-      });
-  }, [currentMonth, user.id]);
-
+  //Retorna um array com os dias desabilitados
   const disabledDays = useMemo(() => {
     const dates = monthAvailability
       .filter((monthDay) => monthDay.available === false)
@@ -84,12 +120,14 @@ const Dashboard: React.FC = () => {
     return dates;
   }, [currentMonth, monthAvailability]);
 
+  //Retorna formatação de data em formato texto
   const selectedDay = useMemo(() => {
     return format(selectedDate, "'Dia' dd 'de' MMMM", {
       locale: ptBR,
     });
   }, [selectedDate]);
 
+  //Retorna formatação do dia da semana
   const selectedDayOfWeek = useMemo(() => {
     const dayOfWeek = format(selectedDate, 'cccc', {
       locale: ptBR,
@@ -101,45 +139,21 @@ const Dashboard: React.FC = () => {
     return `${uppercaseFirstLetter}${stringWithoutFirstLetter}-feira`;
   }, [selectedDate]);
 
-  useEffect(() => {
-    api
-      .get<AppointmentData[]>('/appointments/me', {
-        params: {
-          year: selectedDate.getFullYear(),
-          month: selectedDate.getMonth() + 1,
-          day: selectedDate.getDate(),
-        },
-      })
-      .then((response) => {
-        const responseFormatted = response.data
-          .map((appointment) => {
-            return {
-              ...appointment,
-              hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
-            };
-          })
-          .sort((a, b) => {
-            if (a.date < b.date) return -1;
-            if (a.date > b.date) return 1;
-            return 0;
-          });
-
-        setAppointments(responseFormatted);
-      });
-  }, [selectedDate]);
-
+  //Retorna os agendamentos apenas antes do meio dia
   const morningAppointments = useMemo(() => {
     return appointments.filter((appointment) => {
       return parseISO(appointment.date).getHours() < 12;
     });
   }, [appointments]);
 
+  //Retorna os agendamentos apenas após o meio dia
   const afternoonAppointments = useMemo(() => {
     return appointments.filter((appointment) => {
       return parseISO(appointment.date).getHours() >= 12;
     });
   }, [appointments]);
 
+  //Retorna o próximo agendamento
   const nextAppointment = useMemo(() => {
     return appointments.find((appointment) =>
       isAfter(parseISO(appointment.date), new Date())
