@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
   const { signOut, user } = useAuth();
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
-    if (modifiers.available) {
+    if (modifiers.available && !modifiers.disabled) {
       setSelectedDate(day);
     }
   }, []);
@@ -105,18 +105,24 @@ const Dashboard: React.FC = () => {
     api
       .get<AppointmentData[]>('/appointments/me', {
         params: {
-          day: selectedDate.getDate(),
-          month: selectedDate.getMonth() + 1,
           year: selectedDate.getFullYear(),
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate(),
         },
       })
       .then((response) => {
-        const responseFormatted = response.data.map((appointment) => {
-          return {
-            ...appointment,
-            hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
-          };
-        });
+        const responseFormatted = response.data
+          .map((appointment) => {
+            return {
+              ...appointment,
+              hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
+            };
+          })
+          .sort((a, b) => {
+            if (a.date < b.date) return -1;
+            if (a.date > b.date) return 1;
+            return 0;
+          });
 
         setAppointments(responseFormatted);
       });
@@ -233,7 +239,7 @@ const Dashboard: React.FC = () => {
         <Calendar>
           <DayPicker
             weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-            // fromMonth={new Date()}
+            fromMonth={new Date()}
             disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
             onMonthChange={handleMonthChange}
             modifiers={{
