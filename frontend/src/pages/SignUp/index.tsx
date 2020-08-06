@@ -16,7 +16,7 @@ import Button from '../../components/Button';
 
 import { Container, Content, AnimationContainer, Background } from './styles';
 
-interface DataForm {
+interface SignUpFormData {
   name: string;
   email: string;
   password: string;
@@ -30,7 +30,7 @@ const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(
-    async (data: DataForm) => {
+    async (data: SignUpFormData) => {
       try {
         formRef.current?.setErrors({});
 
