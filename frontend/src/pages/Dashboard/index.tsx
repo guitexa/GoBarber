@@ -3,6 +3,7 @@ import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { isToday, isTomorrow, format, parseISO, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { Link } from 'react-router-dom';
 
 import Logo from '../../assets/logo.svg';
 
@@ -63,49 +64,49 @@ const Dashboard: React.FC = () => {
   //Função que recebe o mês clicado e define o estado
   const handleMonthChange = useCallback((month: Date) => {
     setCurrentMonth(month);
-
-    //Chamada à API pra trazer os dias do mês disponíveis
-    useEffect(() => {
-      api
-        .get(`/providers/${user.id}/month-availability`, {
-          params: {
-            year: currentMonth.getFullYear(),
-            month: currentMonth.getMonth() + 1,
-          },
-        })
-        .then((response) => {
-          setMonthAvailability(response.data);
-        });
-    }, [currentMonth, user.id]);
-
-    //Chamada à API pra trazer os agendamentos
-    useEffect(() => {
-      api
-        .get<AppointmentData[]>('/appointments/me', {
-          params: {
-            year: selectedDate.getFullYear(),
-            month: selectedDate.getMonth() + 1,
-            day: selectedDate.getDate(),
-          },
-        })
-        .then((response) => {
-          const responseFormatted = response.data
-            .map((appointment) => {
-              return {
-                ...appointment,
-                hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
-              };
-            })
-            .sort((a, b) => {
-              if (a.date < b.date) return -1;
-              if (a.date > b.date) return 1;
-              return 0;
-            });
-
-          setAppointments(responseFormatted);
-        });
-    }, [selectedDate]);
   }, []);
+
+  //Chamada à API pra trazer os dias do mês disponíveis
+  useEffect(() => {
+    api
+      .get(`/providers/${user.id}/month-availability`, {
+        params: {
+          year: currentMonth.getFullYear(),
+          month: currentMonth.getMonth() + 1,
+        },
+      })
+      .then((response) => {
+        setMonthAvailability(response.data);
+      });
+  }, [currentMonth, user.id]);
+
+  //Chamada à API pra trazer os agendamentos
+  useEffect(() => {
+    api
+      .get<AppointmentData[]>('/appointments/me', {
+        params: {
+          year: selectedDate.getFullYear(),
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate(),
+        },
+      })
+      .then((response) => {
+        const responseFormatted = response.data
+          .map((appointment) => {
+            return {
+              ...appointment,
+              hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
+            };
+          })
+          .sort((a, b) => {
+            if (a.date < b.date) return -1;
+            if (a.date > b.date) return 1;
+            return 0;
+          });
+
+        setAppointments(responseFormatted);
+      });
+  }, [selectedDate]);
 
   //Retorna um array com os dias desabilitados
   const disabledDays = useMemo(() => {
@@ -169,7 +170,9 @@ const Dashboard: React.FC = () => {
             <img src={user.avatar_url} />
             <WelcomeUser>
               <span>Bem vindo,</span>
-              <strong>{user.name}</strong>
+              <Link to="/profile">
+                <strong>{user.name}</strong>
+              </Link>
             </WelcomeUser>
           </Profile>
           <button type="button" onClick={signOut}>
