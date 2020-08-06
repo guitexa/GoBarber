@@ -57,21 +57,6 @@ describe('UpdateUserProfile', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should NOT be able to update email to users email', async () => {
-    const user = await fakeUsersRepository.create({
-      name: 'Jane Doe',
-      email: 'janedoe@mail.com',
-      password: '123456',
-    });
-
-    await expect(
-      updateUserProfile.execute({
-        user_id: user.id,
-        email: user.email,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
   it('should be able to update user password', async () => {
     const user = await fakeUsersRepository.create({
       name: 'Jane Doe',
