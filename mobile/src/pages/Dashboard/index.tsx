@@ -21,8 +21,6 @@ const Dashboard: React.FC = () => {
     navigate('');
   }, [navigate]);
 
-  console.log(user.avatar_url);
-
   return (
     <Container>
       <Header>
