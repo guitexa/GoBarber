@@ -40,5 +40,5 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
 });
 
 app.listen(port, () => {
-  console.log(`SERVER ON http://localhost:${port}`);
+  console.log(`SERVER ON ${process.env.APP_API_URL}`);
 });
