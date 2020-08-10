@@ -6,6 +6,7 @@ import User from '../infra/typeorm/entities/User';
 
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface Request {
   user_id: string;
@@ -23,6 +24,9 @@ export default class UpdateUserProfileService {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({
@@ -43,6 +47,8 @@ export default class UpdateUserProfileService {
 
     if (name) {
       user.name = name;
+
+      await this.cacheProvider.invalidatePrefix('list-providers');
     }
 
     if (email) {
@@ -53,6 +59,8 @@ export default class UpdateUserProfileService {
       }
 
       user.email = email;
+
+      await this.cacheProvider.invalidatePrefix('list-providers');
     }
 
     if (password && !old_password) {
@@ -70,6 +78,8 @@ export default class UpdateUserProfileService {
       }
 
       user.password = await this.hashProvider.generateHash(password);
+
+      await this.cacheProvider.invalidatePrefix('list-providers');
     }
 
     return this.usersRepository.save(user);
