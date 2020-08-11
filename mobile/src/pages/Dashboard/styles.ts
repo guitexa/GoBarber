@@ -2,7 +2,6 @@ import styled from 'styled-components/native';
 import { Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
-
 import { Provider } from './index';
 import { RectButton } from 'react-native-gesture-handler';
 
@@ -32,7 +31,9 @@ export const UserName = styled.Text`
   font-family: 'RobotoSlab-Medium';
 `;
 
-export const ProfileButton = styled.TouchableOpacity``;
+export const ProfileButton = styled.TouchableOpacity`
+  margin-left: auto;
+`;
 
 export const UserAvatar = styled.Image`
   width: 50px;

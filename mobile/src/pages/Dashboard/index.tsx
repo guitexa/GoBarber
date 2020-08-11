@@ -53,9 +53,6 @@ const Dashboard: React.FC = () => {
     [navigate]
   );
 
-  console.log(user);
-  console.log(providers);
-
   return (
     <Container>
       <Header>
