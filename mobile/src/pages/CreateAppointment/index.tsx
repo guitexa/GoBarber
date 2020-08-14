@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Platform, Alert } from 'react-native';
+import { Platform, Alert, BackHandler } from 'react-native';
 import { format, isWeekend, isBefore } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -63,9 +63,9 @@ const CreateAppointment: React.FC = () => {
   const [selectedHour, setSelectedHour] = useState(0);
   const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
-  const { navigate, goBack } = useNavigation();
+  const { reset, navigate, goBack } = useNavigation();
 
   useEffect(() => {
     api.get('/providers').then((response) => {
@@ -88,9 +88,23 @@ const CreateAppointment: React.FC = () => {
       .then((response) => setAvailability(response.data));
   }, [selectedDate, selectedProvider]);
 
+  useEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        goBack();
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [goBack])
+  );
+
   const navigateToProfile = useCallback(() => {
-    signOut();
-  }, [signOut]);
+    navigate('Profile');
+  }, [navigate]);
 
   const handleChangeProvider = useCallback(
     (id: string) => {
@@ -139,15 +153,22 @@ const CreateAppointment: React.FC = () => {
         date,
       });
 
-      goBack();
-      Alert.alert('Agendamento criado com sucesso');
+      reset({
+        index: 0,
+        routes: [
+          {
+            name: 'AppointmentCreated',
+            params: { date: date.getTime() },
+          },
+        ],
+      });
     } catch (err) {
       Alert.alert(
         'Erro ao criar o agendamento',
         'Verifique as informações e tente novamente'
       );
     }
-  }, [selectedDate, goBack, selectedHour]);
+  }, [selectedDate, reset, navigate, selectedHour]);
 
   const morningAvailability = useMemo(() => {
     return availability
