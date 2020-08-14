@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import { BackHandler, Alert } from 'react-native';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
@@ -32,7 +33,7 @@ export interface Provider {
 const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   const { navigate } = useNavigation();
 
@@ -42,9 +43,38 @@ const Dashboard: React.FC = () => {
     });
   }, []);
 
+  useEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert(
+          'Ops!',
+          'Deseja sair da aplicação?',
+          [
+            {
+              text: 'Não',
+              onPress: () => null,
+              style: 'cancel',
+            },
+            {
+              text: 'Sim',
+              onPress: () => BackHandler.exitApp(),
+            },
+          ],
+          { cancelable: true }
+        );
+        return true;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [])
+  );
+
   const navigateToProfile = useCallback(() => {
-    signOut();
-  }, [signOut]);
+    navigate('Profile');
+  }, [navigate]);
 
   const navigateToCreateAppointment = useCallback(
     (provider_id: string) => {
