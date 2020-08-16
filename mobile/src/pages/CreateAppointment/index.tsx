@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform, Alert, BackHandler } from 'react-native';
-import { format, isWeekend, isBefore } from 'date-fns';
+import { format, isWeekend, isBefore, isSaturday, isSunday } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { useAuth } from '../../hooks/auth';
@@ -51,6 +51,7 @@ import {
   CreateAppointmentButton,
   CreateAppointmentButtonText,
 } from './styles';
+import { isToday } from 'date-fns/esm';
 
 const CreateAppointment: React.FC = () => {
   const route = useRoute();
@@ -195,9 +196,21 @@ const CreateAppointment: React.FC = () => {
   }, [availability]);
 
   const selectedDay = useMemo(() => {
-    return format(selectedDate, "dd 'de' MMMM - cccc'-feira'", {
+    const today = new Date();
+
+    if (isSaturday(selectedDate) && isToday(selectedDate)) {
+      setSelectedDate(new Date(today.setDate(today.getDate() + 2)));
+    }
+
+    if (isSunday(selectedDate) && isToday(selectedDate)) {
+      setSelectedDate(new Date(today.setDate(today.getDate() + 1)));
+    }
+
+    const formattedDate = format(selectedDate, "dd 'de' MMMM - cccc'-feira'", {
       locale: ptBR,
     });
+
+    return formattedDate;
   }, [selectedDate]);
 
   return (
@@ -233,7 +246,7 @@ const CreateAppointment: React.FC = () => {
           />
         </ProvidersListContainer>
         <Calendar>
-          <Title>Escolha o dia</Title>
+          <Title>Dia escolhido</Title>
           <ButtonDatePicker onPress={handleToggleDatePicker}>
             <ButtonDatePickerText>{selectedDay}</ButtonDatePickerText>
           </ButtonDatePicker>
