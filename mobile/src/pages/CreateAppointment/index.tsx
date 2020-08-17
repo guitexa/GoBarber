@@ -103,21 +103,6 @@ const CreateAppointment: React.FC = () => {
       .then((response) => setAvailability(response.data));
   }, [selectedDate, selectedProvider]);
 
-  //Função para alterar o comportamento do botão de voltar do Android
-  useEffect(
-    useCallback(() => {
-      const onBackPress = () => {
-        goBack();
-        return true;
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', onBackPress);
-
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [goBack])
-  );
-
   //Função para navegar para o perfil do usuário
   const navigateToProfile = useCallback(() => {
     navigate('Profile');
