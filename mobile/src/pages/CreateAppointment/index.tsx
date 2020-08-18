@@ -175,7 +175,7 @@ const CreateAppointment: React.FC = () => {
         'Verifique as informações e tente novamente'
       );
     }
-  }, [selectedDate, reset, navigate, selectedHour]);
+  }, [selectedDate, reset, selectedHour]);
 
   //Retorna a disponibilidade no período da manhã
   const morningAvailability = useMemo(() => {
