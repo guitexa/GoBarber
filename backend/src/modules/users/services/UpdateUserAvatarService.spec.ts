@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
+import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
 let fakeUsersRepository: FakeUsersRepository;

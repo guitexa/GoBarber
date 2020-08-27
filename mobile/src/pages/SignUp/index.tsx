@@ -79,6 +79,14 @@ const SignUp: React.FC = () => {
     [navigation]
   );
 
+  const keyboardDidShow = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const keyboardDidHide = useCallback(() => {
+    setOpen(false);
+  }, []);
+
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
@@ -87,15 +95,7 @@ const SignUp: React.FC = () => {
       Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
       Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
     };
-  }, []);
-
-  const keyboardDidShow = useCallback(() => {
-    setOpen(true);
-  }, []);
-
-  const keyboardDidHide = useCallback(() => {
-    setOpen(false);
-  }, []);
+  }, [keyboardDidShow, keyboardDidHide]);
 
   return (
     <>

@@ -42,10 +42,7 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
           <p data-testid="description-toast">{message.description}</p>
         )}
       </div>
-      <button
-        data-testid="button-remove-toast"
-        onClick={() => removeToast(message.id)}
-      >
+      <button type="button" onClick={() => removeToast(message.id)}>
         <FiX size={20} />
       </button>
     </Container>

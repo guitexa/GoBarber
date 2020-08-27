@@ -36,9 +36,7 @@ const Input: React.FC<InputProps> = ({
   const handleOnBlur = useCallback(() => {
     setIsFocused(false);
 
-    {
-      setIsFilled(!!inputRef.current?.value);
-    }
+    setIsFilled(!!inputRef.current?.value);
   }, []);
 
   useEffect(() => {

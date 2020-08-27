@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import ForgotPassword from '../../pages/ForgotPassword';
 import MockAdapter from 'axios-mock-adapter';
+import ForgotPassword from '../../pages/ForgotPassword';
 import api from '../../services/api';
 
 const mockedAddToast = jest.fn();

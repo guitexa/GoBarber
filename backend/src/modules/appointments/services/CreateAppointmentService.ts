@@ -1,15 +1,13 @@
 import { injectable, inject } from 'tsyringe';
-import { startOfHour, isBefore, getHours, format } from 'date-fns';
+import { startOfHour, isBefore, getHours, format, ptBR } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
-import Appointment from '../infra/typeorm/entities/Appointment';
-
-import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import { ptBR } from 'date-fns/locale';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import Appointment from '../infra/typeorm/entities/Appointment';
 
 interface IRequest {
   provider_id: string;

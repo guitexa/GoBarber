@@ -2,9 +2,9 @@ import { Router } from 'express';
 import { celebrate, Segments } from 'celebrate';
 
 import ensureAuth from '@modules/users/infra/http/middlewares/ensureAuth';
+import Joi from '@hapi/joi';
 import AppointmentsController from '../controllers/AppointmentsController';
 import ProviderAppointmentsController from '../controllers/ProviderAppointmentsController';
-import Joi from '@hapi/joi';
 
 const appointmentsRouter = Router();
 

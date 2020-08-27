@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Platform, Alert, BackHandler } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import {
   format,
   isWeekend,
@@ -15,21 +15,6 @@ import ptBR from 'date-fns/locale/pt-BR';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
-
-interface RouteParams {
-  provider_id: string;
-}
-
-export interface Provider {
-  id: string;
-  name: string;
-  avatar_url: string;
-}
-
-interface AvailabilityItem {
-  hour: number;
-  available: boolean;
-}
 
 import {
   Container,
@@ -59,35 +44,50 @@ import {
   CreateAppointmentButtonText,
 } from './styles';
 
+interface RouteParams {
+  provider_id: string;
+}
+
+export interface Provider {
+  id: string;
+  name: string;
+  avatar_url: string;
+}
+
+interface AvailabilityItem {
+  hour: number;
+  available: boolean;
+}
+
 const CreateAppointment: React.FC = () => {
   const route = useRoute();
   const { provider_id } = route.params as RouteParams;
 
-  //Estado para armazenar os prestadores recebidos da API
+  // Estado para armazenar os prestadores recebidos da API
   const [providers, setProviders] = useState<Provider[]>([]);
-  //Estado para armazenar o prestadores selecionado
+  // Estado para armazenar o prestadores selecionado
   const [selectedProvider, setSelectedProvider] = useState(provider_id);
-  //Estado para armazenar se o calendário está aberto ou fechado
+  // Estado para armazenar se o calendário está aberto ou fechado
   const [showDatePicker, setShowDatePicker] = useState(false);
-  //Estado para armazenar a data selecionada
+  // Estado para armazenar a data selecionada
   const [selectedDate, setSelectedDate] = useState(new Date());
-  //Estado para armazenar a hora selecionada
+  // Estado para armazenar a hora selecionada
   const [selectedHour, setSelectedHour] = useState(0);
-  //Estado para armazenar a disponibilidade do prestador recebido da API
+  // Estado para armazenar a disponibilidade do prestador recebido da API
   const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
 
   const { user } = useAuth();
 
   const { reset, navigate, goBack } = useNavigation();
 
-  //Chamada à API para buscar os prestadores
+  // Chamada à API para buscar os prestadores
   useEffect(() => {
     api.get('/providers').then((response) => {
       setProviders(response.data);
     });
   }, []);
 
-  //Chamada à API para buscar a disponibilidade do prestador selecionado
+  // Chamada à API para buscar a disponibilidade do prestador selecionado
   useEffect(() => {
     api
       .get<AvailabilityItem[]>(
@@ -103,12 +103,12 @@ const CreateAppointment: React.FC = () => {
       .then((response) => setAvailability(response.data));
   }, [selectedDate, selectedProvider]);
 
-  //Função para navegar para o perfil do usuário
+  // Função para navegar para o perfil do usuário
   const navigateToProfile = useCallback(() => {
     navigate('Profile');
   }, [navigate]);
 
-  //Função para alterar o prestador selecionado
+  // Função para alterar o prestador selecionado
   const handleChangeProvider = useCallback(
     (id: string) => {
       setSelectedProvider(id);
@@ -116,12 +116,12 @@ const CreateAppointment: React.FC = () => {
     [setSelectedProvider]
   );
 
-  //Função para abrir e fechar o calendário
+  // Função para abrir e fechar o calendário
   const handleToggleDatePicker = useCallback(() => {
     setShowDatePicker((state) => !state);
   }, []);
 
-  //Função para selecionar uma data no calendário
+  // Função para selecionar uma data no calendário
   const handleDateChange = useCallback((event: any, date: Date | undefined) => {
     if (Platform.OS === 'android') {
       setShowDatePicker(false);
@@ -142,12 +142,12 @@ const CreateAppointment: React.FC = () => {
     }
   }, []);
 
-  //Função para selecionar uma hora disponível
+  // Função para selecionar uma hora disponível
   const handleHourChange = useCallback((hour: number) => {
     setSelectedHour(hour);
   }, []);
 
-  //Função para criar o agendamento, enviar para API e redirecionar o usuário para tela de sucesso
+  // Função para criar o agendamento, enviar para API e redirecionar o usuário para tela de sucesso
   const handleCreateAppointment = useCallback(async () => {
     try {
       const date = new Date(selectedDate);
@@ -175,9 +175,9 @@ const CreateAppointment: React.FC = () => {
         'Verifique as informações e tente novamente'
       );
     }
-  }, [selectedDate, reset, selectedHour]);
+  }, [selectedDate, reset, selectedHour, provider_id]);
 
-  //Retorna a disponibilidade no período da manhã
+  // Retorna a disponibilidade no período da manhã
   const morningAvailability = useMemo(() => {
     return availability
       .filter(({ hour }) => hour < 12)
@@ -190,7 +190,7 @@ const CreateAppointment: React.FC = () => {
       });
   }, [availability]);
 
-  //Retorna a disponibilidade no período da tarde
+  // Retorna a disponibilidade no período da tarde
   const afternoonAvailability = useMemo(() => {
     return availability
       .filter(({ hour }) => hour >= 12)
@@ -203,7 +203,7 @@ const CreateAppointment: React.FC = () => {
       });
   }, [availability]);
 
-  //Retorna a data selecionada formatada
+  // Retorna a data selecionada formatada
   const selectedDay = useMemo(() => {
     const today = new Date();
 

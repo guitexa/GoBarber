@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import Profile from '../../pages/Profile';
 import MockAdapter from 'axios-mock-adapter';
+import Profile from '../../pages/Profile';
 import api from '../../services/api';
 
 const mockedApi = new MockAdapter(api);

@@ -12,9 +12,7 @@ describe('Button component', () => {
   });
 
   it('should display loading message and hide children', () => {
-    const { getByTestId } = render(
-      <Button loading={true} children="text-button" />
-    );
+    const { getByTestId } = render(<Button loading children="text-button" />);
 
     const buttonElement = getByTestId('button-container');
 

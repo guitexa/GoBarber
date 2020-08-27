@@ -32,7 +32,7 @@ const AppointmentCreated: React.FC = () => {
 
   useEffect(
     useCallback(() => {
-      const onBackPress = () => {
+      const onBackPress = (): boolean => {
         reset({
           routes: [{ name: 'Dashboard' }],
           index: 0,
@@ -44,7 +44,8 @@ const AppointmentCreated: React.FC = () => {
 
       return () =>
         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
-    }, [reset])
+    }, [reset]),
+    []
   );
 
   const formattedDate = useMemo(() => {

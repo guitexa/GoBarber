@@ -193,16 +193,6 @@ const Profile: React.FC = () => {
     [reset, updateUser]
   );
 
-  useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', keyboardDidShow);
-    Keyboard.addListener('keyboardDidHide', keyboardDidHide);
-
-    return () => {
-      Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
-      Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
-    };
-  }, []);
-
   useEffect(
     useCallback(() => {
       const onBackPress = () => {
@@ -224,6 +214,16 @@ const Profile: React.FC = () => {
   const keyboardDidHide = useCallback(() => {
     setOpen(false);
   }, []);
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', keyboardDidShow);
+    Keyboard.addListener('keyboardDidHide', keyboardDidHide);
+
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
+      Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
+    };
+  }, [keyboardDidHide, keyboardDidShow]);
 
   return (
     <>

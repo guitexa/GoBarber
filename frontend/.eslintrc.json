@@ -35,9 +35,10 @@
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/jsx-filename-extension": [1, { "extension": ["*.tsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
     "@typescript-eslint/camelcase": "off",
+    "camelcase": "off",
     "import/no-duplicate-imports": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "error",

@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
-import { isToday, isTomorrow, format, parseISO, isAfter } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+import ptBR, { isToday, isTomorrow, format, parseISO, isAfter } from 'date-fns';
+
 import { Link } from 'react-router-dom';
 
+import { FiPower, FiClock } from 'react-icons/fi';
 import Logo from '../../assets/logo.svg';
 
-import { FiPower, FiClock } from 'react-icons/fi';
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -41,32 +41,32 @@ interface AppointmentData {
 }
 
 const Dashboard: React.FC = () => {
-  //Estado para armazenar o dia selecionado
+  // Estado para armazenar o dia selecionado
   const [selectedDate, setSelectedDate] = useState(new Date());
-  //Estado para armazenar o mês atual
+  // Estado para armazenar o mês atual
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  //Estado para armazenar os dias disponíveis recebidos da API
+  // Estado para armazenar os dias disponíveis recebidos da API
   const [monthAvailability, setMonthAvailability] = useState<
     MonthAvailability[]
   >([]);
-  //Estado para armazenar os agendamentos recebidos da API
+  // Estado para armazenar os agendamentos recebidos da API
   const [appointments, setAppointments] = useState<AppointmentData[]>([]);
 
   const { signOut, user } = useAuth();
 
-  //Função que recebe dia clicado e faz uma verificação se está disponível e se não está desabilitado, e define o estado
+  // Função que recebe dia clicado e faz uma verificação se está disponível e se não está desabilitado, e define o estado
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
       setSelectedDate(day);
     }
   }, []);
 
-  //Função que recebe o mês clicado e define o estado
+  // Função que recebe o mês clicado e define o estado
   const handleMonthChange = useCallback((month: Date) => {
     setCurrentMonth(month);
   }, []);
 
-  //Chamada à API pra trazer os dias do mês disponíveis
+  // Chamada à API pra trazer os dias do mês disponíveis
   useEffect(() => {
     api
       .get(`/providers/${user.id}/month-availability`, {
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
       });
   }, [currentMonth, user.id]);
 
-  //Chamada à API pra trazer os agendamentos
+  // Chamada à API pra trazer os agendamentos
   useEffect(() => {
     api
       .get<AppointmentData[]>('/appointments/me', {
@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
       });
   }, [selectedDate]);
 
-  //Retorna um array com os dias desabilitados
+  // Retorna um array com os dias desabilitados
   const disabledDays = useMemo(() => {
     const dates = monthAvailability
       .filter((monthDay) => monthDay.available === false)
@@ -121,14 +121,14 @@ const Dashboard: React.FC = () => {
     return dates;
   }, [currentMonth, monthAvailability]);
 
-  //Retorna formatação de data em formato texto
+  // Retorna formatação de data em formato texto
   const selectedDay = useMemo(() => {
     return format(selectedDate, "'Dia' dd 'de' MMMM", {
       locale: ptBR,
     });
   }, [selectedDate]);
 
-  //Retorna formatação do dia da semana
+  // Retorna formatação do dia da semana
   const selectedDayOfWeek = useMemo(() => {
     const dayOfWeek = format(selectedDate, 'cccc', {
       locale: ptBR,
@@ -140,21 +140,21 @@ const Dashboard: React.FC = () => {
     return `${uppercaseFirstLetter}${stringWithoutFirstLetter}-feira`;
   }, [selectedDate]);
 
-  //Retorna os agendamentos apenas antes do meio dia
+  // Retorna os agendamentos apenas antes do meio dia
   const morningAppointments = useMemo(() => {
     return appointments.filter((appointment) => {
       return parseISO(appointment.date).getHours() < 12;
     });
   }, [appointments]);
 
-  //Retorna os agendamentos apenas após o meio dia
+  // Retorna os agendamentos apenas após o meio dia
   const afternoonAppointments = useMemo(() => {
     return appointments.filter((appointment) => {
       return parseISO(appointment.date).getHours() >= 12;
     });
   }, [appointments]);
 
-  //Retorna o próximo agendamento
+  // Retorna o próximo agendamento
   const nextAppointment = useMemo(() => {
     return appointments.find((appointment) =>
       isAfter(parseISO(appointment.date), new Date())

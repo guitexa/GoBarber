@@ -3,8 +3,8 @@ import { getDaysInMonth, getDate, isAfter } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
-import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
   provider_id: string;

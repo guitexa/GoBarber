@@ -2,17 +2,17 @@ import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
 
+import { Container, InputText, Icon } from './styles';
+
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
-  containerStyle?: {};
+  containerStyle?: Record<string, unknown>;
 }
 
 interface InputValueReference {
   value: string;
 }
-
-import { Container, InputText, Icon } from './styles';
 
 const Input: React.FC<InputProps> = ({
   name,
@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [isFileed, setIsFileed] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
 
   const inputElementRef = useRef<any>(null);
 
@@ -35,7 +35,7 @@ const Input: React.FC<InputProps> = ({
   const handleOnBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFileed(!!inputValueRef.current.value);
+    setIsFilled(!!inputValueRef.current.value);
   }, []);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Input: React.FC<InputProps> = ({
       <Icon
         name={icon}
         size={20}
-        color={isFocused || isFileed ? '#ff9000' : '#666360'}
+        color={isFocused || isFilled ? '#ff9000' : '#666360'}
       />
       <InputText
         onFocus={handleOnFocus}

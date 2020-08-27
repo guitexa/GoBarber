@@ -2,11 +2,11 @@ import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import Appointments from '../infra/typeorm/entities/Appointment';
-import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import { classToClass } from 'class-transformer';
+import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
+import Appointments from '../infra/typeorm/entities/Appointment';
 
 interface IRequest {
   provider_id: string;

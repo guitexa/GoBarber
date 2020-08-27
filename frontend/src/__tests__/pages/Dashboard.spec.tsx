@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import Dashboard from '../../pages/Dashboard';
 import MockAdapter from 'axios-mock-adapter';
+import Dashboard from '../../pages/Dashboard';
 import api from '../../services/api';
 
 const mockedUser = {

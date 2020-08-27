@@ -24,8 +24,8 @@ import { useAuth } from '../../hooks/auth';
 import {
   Container,
   Title,
-  ForgorPassword,
-  ForgorPasswordText,
+  ForgotPassword,
+  ForgotPasswordText,
   CreateAccount,
   CreateAccountText,
 } from './styles';
@@ -82,6 +82,14 @@ const SignIn: React.FC = () => {
     [signIn]
   );
 
+  const keyboardDidShow = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const keyboardDidHide = useCallback(() => {
+    setOpen(false);
+  }, []);
+
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
@@ -90,15 +98,7 @@ const SignIn: React.FC = () => {
       Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
       Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
     };
-  }, []);
-
-  const keyboardDidShow = useCallback(() => {
-    setOpen(true);
-  }, []);
-
-  const keyboardDidHide = useCallback(() => {
-    setOpen(false);
-  }, []);
+  }, [keyboardDidHide, keyboardDidShow]);
 
   return (
     <>
@@ -149,9 +149,9 @@ const SignIn: React.FC = () => {
                 Entrar
               </Button>
             </Form>
-            <ForgorPassword onPress={() => {}}>
-              <ForgorPasswordText>Esqueci minha senha</ForgorPasswordText>
-            </ForgorPassword>
+            <ForgotPassword onPress={() => {}}>
+              <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
+            </ForgotPassword>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -1,8 +1,8 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import ListProviderAppointmentsService from './ListProviderAppointmentsService';
 
 let fakeUsersRepository: FakeUsersRepository;
