@@ -48,8 +48,6 @@ const ResetPassword: React.FC = () => {
 
         const token = location.search.replace('?token=', '');
 
-        console.log(token);
-
         if (!token) {
           throw new Error();
         }
@@ -61,8 +59,8 @@ const ResetPassword: React.FC = () => {
         });
 
         addToast({
-          title: 'Senha alterada com sucesso',
           type: 'success',
+          title: 'Senha alterada com sucesso',
         });
 
         history.push('/');
@@ -76,8 +74,8 @@ const ResetPassword: React.FC = () => {
         }
 
         addToast({
-          title: 'Erro ao alterar a senha',
           type: 'error',
+          title: 'Erro ao alterar a senha',
           description: 'Verifique os dados digitados e tente novamente',
         });
       }

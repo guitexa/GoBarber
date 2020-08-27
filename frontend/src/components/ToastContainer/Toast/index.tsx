@@ -23,7 +23,6 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
     const timer = setTimeout(() => {
       removeToast(message.id);
     }, 3500);
-
     return () => {
       clearTimeout(timer);
     };
@@ -31,6 +30,7 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
 
   return (
     <Container
+      data-testid="toast"
       type={message.type}
       hasDescription={Number(!!message.description)}
       style={style}
@@ -38,9 +38,14 @@ const Toast: React.FC<ToastProps> = ({ message, style }) => {
       {icons[message.type || 'info']}
       <div>
         <strong>{message.title}</strong>
-        {message.description && <p>{message.description}</p>}
+        {message.description && (
+          <p data-testid="description-toast">{message.description}</p>
+        )}
       </div>
-      <button onClick={() => removeToast(message.id)}>
+      <button
+        data-testid="button-remove-toast"
+        onClick={() => removeToast(message.id)}
+      >
         <FiX size={20} />
       </button>
     </Container>

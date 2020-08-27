@@ -167,7 +167,7 @@ const Dashboard: React.FC = () => {
         <HeaderContent>
           <img src={Logo} alt="GoBarber" />
           <Profile>
-            <img src={user.avatar_url} />
+            <img src={user.avatar_url} alt={user.name} />
             <WelcomeUser>
               <span>Bem vindo,</span>
               <Link to="/profile">
@@ -259,6 +259,7 @@ const Dashboard: React.FC = () => {
             fromMonth={new Date()}
             disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
             onMonthChange={handleMonthChange}
+            data-testid="day-picker"
             modifiers={{
               available: { daysOfWeek: [1, 2, 3, 4, 5] },
             }}

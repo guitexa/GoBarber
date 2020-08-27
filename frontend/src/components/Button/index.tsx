@@ -11,6 +11,7 @@ const Button: React.FC<ButtonProps> = ({ children, loading, ...rest }) => (
     loading={Number(loading)}
     type="submit"
     disabled={loading}
+    data-testid="button-container"
     {...rest}
   >
     {loading ? 'Enviando e-mail...' : children}
