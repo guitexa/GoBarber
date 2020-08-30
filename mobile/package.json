@@ -77,6 +77,14 @@
       "src/components/**/*.tsx",
       "src/hooks/**/*.tsx",
       "!src/hooks/index.tsx"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   }
 }

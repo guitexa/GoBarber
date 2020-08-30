@@ -1,16 +1,47 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 
 import SignIn from '../../pages/SignIn';
 
+const mockedNavigate = jest.fn();
+const mockedSignIn = jest.fn();
+
+jest.mock('@react-navigation/native', () => {
+  return {
+    useNavigation: () => ({
+      navigate: mockedNavigate,
+    }),
+  };
+});
+
+jest.mock('../../hooks/auth', () => {
+  return {
+    useAuth: () => ({
+      signIn: mockedSignIn,
+    }),
+  };
+});
+
 describe('SignIn page', () => {
-  it('should be able to render email and password fields', () => {
-    const { getByPlaceholderText } = render(<SignIn />);
+  beforeEach(() => {
+    mockedNavigate.mockClear();
+    mockedSignIn.mockClear();
+  });
 
-    const inputElement = getByPlaceholderText('E-mail');
-    const passwordElement = getByPlaceholderText('Senha');
+  it('should be able to sign in', async () => {
+    const { getByPlaceholderText, getByTestId } = render(<SignIn />);
 
-    expect(inputElement).toBeTruthy();
-    expect(passwordElement).toBeTruthy();
+    const emailField = getByPlaceholderText('E-mail');
+    const passwordField = getByPlaceholderText('Senha');
+    const buttonElement = getByTestId('enter-button');
+
+    fireEvent.changeText(emailField, 'janedoe@mail.com');
+    fireEvent.changeText(passwordField, '123456');
+
+    fireEvent.press(buttonElement);
+
+    await waitFor(() => {
+      expect(mockedNavigate).toBeCalledWith('Dashboard');
+    });
   });
 });

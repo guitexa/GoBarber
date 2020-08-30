@@ -49,6 +49,8 @@ const SignIn: React.FC = () => {
       try {
         formRef.current?.setErrors({});
 
+        console.log(data.email);
+
         const schema = Yup.object().shape({
           email: Yup.string()
             .required('Email obrigatório')
@@ -64,6 +66,8 @@ const SignIn: React.FC = () => {
           email: data.email,
           password: data.password,
         });
+
+        navigation.navigate('Dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -79,7 +83,7 @@ const SignIn: React.FC = () => {
         );
       }
     },
-    [signIn]
+    [signIn, navigation]
   );
 
   const keyboardDidShow = useCallback(() => {
@@ -142,6 +146,7 @@ const SignIn: React.FC = () => {
                 }}
               />
               <Button
+                testID="enter-button"
                 onPress={() => {
                   formRef.current?.submitForm();
                 }}
