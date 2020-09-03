@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
-import ptBR, { isToday, isTomorrow, format, parseISO, isAfter } from 'date-fns';
+import { isToday, isTomorrow, format, parseISO, isAfter } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import { Link } from 'react-router-dom';
 
