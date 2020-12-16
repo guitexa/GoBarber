@@ -2,16 +2,6 @@
   <img alt="Go Barber" src="https://i.imgur.com/ocOvCAf.png" width="100%" style="border-radius:8px;"/>
 </h1>
 
-<h3 align="center" >
-  💈 App to manage appointments at barbershop 💈
-</h3>
-
-<p align="center">
-<img alt="Project working" src="https://media.giphy.com/media/Kd6Bhk4z3WvAVwATfZ/giphy.gif" style="border-radius:8px;"/>
-<br />
-<img alt="Project working" src="https://media.giphy.com/media/ZbN47mDCoojKu9TQhL/giphy.gif" style="border-radius:8px;"/>
-</p>
-
 <p align="center">
   <img alt="Languages" src="https://img.shields.io/github/languages/count/guitexa/GoBarber">
   <img alt="Top Language" src="https://img.shields.io/github/languages/top/guitexa/GoBarber">
@@ -42,6 +32,16 @@
 
 </p>
 
+<h3 align="center" >
+  💈 App to manage appointments at barbershop 💈
+</h3>
+
+<p align="center">
+<img alt="Project working" src="https://media.giphy.com/media/Kd6Bhk4z3WvAVwATfZ/giphy.gif" style="border-radius:8px;"/>
+<br />
+<img alt="Project working" src="https://media.giphy.com/media/ZbN47mDCoojKu9TQhL/giphy.gif" style="border-radius:8px;"/>
+</p>
+
 ## 📜 About the project
 
 This project was proposed by Rocketseat on Bootcamp GoStack. The goal is develop a complete app to barbershops called GoBarber, where providers set the schedules that they will be available to work, while costumers can choose a provider who wish and to schedule an appointment.
@@ -66,13 +66,6 @@ yarn android | yarn ios
 ```
 
 > To run with Insomnia you can [download my Workspace here](https://github.com/guitexa/GoBarber/blob/master/backend/insomnia.config.json).
-
-## Author
-
-🙋🏻‍♂️ **Guilherme Teixeira**
-
-[![github](http://ap.imagensbrasil.org/images/2018/12/10/github-logo-1.png) ](https://github.com/guitexa)
-[![linkedIn](http://ap.imagensbrasil.org/images/2018/12/10/linkedin-1.png)](https://www.linkedin.com/in/guitexa/)
 
 ## 🤝 Contributing
 
